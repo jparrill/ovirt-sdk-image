@@ -1,0 +1,5 @@
+---
+- src: 'oVirt.image-template'
+- src: 'oVirt.vm-infra'
+- src: 'bertvv.rh-base'
+- src: 'bertvv.bind'

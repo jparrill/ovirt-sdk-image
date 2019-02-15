@@ -1,0 +1,13 @@
+---
+- name: 'Deploy oVirt SDK'
+  hosts: all
+  become: True
+  pre_tasks:
+    - name: 'Install Ansible'
+      package:
+        name: "{{ item }}"
+        state: present
+      with_list:
+        - ansible
+  roles:
+    - 'ovirt-sdk'
