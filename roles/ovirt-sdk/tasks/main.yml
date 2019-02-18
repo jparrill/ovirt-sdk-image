@@ -1,43 +1,43 @@
 ---
 # tasks file for ovirt-sdk
-- name: 'Install requirements Fedora'
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items: [ 'docker', 'etcd', 'python-requests', 'python2-docker', 'python3-docker', 'python-click', 'bind-utils', 'mlocate', 'git', 'wget', 'patch', 'vim' ]
-  when: "'Fedora' in ansible_distribution"
-
-- name: 'Install requirements CentOS'
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items: [ 'docker', 'etcd', 'python-requests', 'docker-python', 'python-click', 'bind-utils', 'mlocate', 'git', 'wget', 'patch', 'vim' ]
-  when: "'CentOS' in ansible_distribution"
-
 - name: 'Install oVirt 4 repositories'
   package:
     name: 'http://resources.ovirt.org/pub/yum-repo/ovirt-release42.rpm'
     state: present
+  notify:
+    - "Clean {{ ansible_distribution }} cache packages"
+
+- meta: flush_handlers
+
+- block:
+    - name: 'Install requirements CentOS'
+      package:
+        name: "{{ CentOS.packages }}"
+        state: present
+
+    - name: 'Install Pushbullet library'
+      easy_install:
+        name: 'pushbullet.py'
+        state: present
+
   when: "'CentOS' in ansible_distribution"
 
-- name: 'Install oVirt SDK'
-  pip:
-    name: 'ovirt-engine-sdk-python'
-    state: present
-    extra_args: --user
+- block:
+    - name: 'Install requirements Fedora'
+      package:
+        name: "{{ Fedora.packages }}"
+        state: present
+
+    - name: 'Install oVirt SDK Fedora'
+      pip:
+        name: "{{ Fedora.pip }}"
+        state: present
+        extra_args: --user
+        executable: pip3
+      environment:
+        PYCURL_SSL_LIBRARY: 'openssl'
+
   when: "'Fedora' in ansible_distribution"
-
-- name: 'Install oVirt SDK'
-  yum:
-    name: 'python-ovirt-engine-sdk4'
-    state: present
-    update_cache: true
-  when: "'CentOS' in ansible_distribution"
-
-- name: 'Install Pushbullet library'
-  easy_install:
-    name: 'pushbullet.py'
-    state: present
 
 - name: 'Generate dummy SSH key'
   command: 'ssh-keygen -b 2048 -t rsa -f /root/.ssh/id_rsa -q -N ""'

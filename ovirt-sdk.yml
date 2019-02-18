@@ -1,7 +1,7 @@
 ---
 - name: 'Deploy oVirt SDK'
   hosts: all
-  become: True
+  become: true
   pre_tasks:
     - name: 'Install Ansible'
       package:

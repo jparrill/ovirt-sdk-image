@@ -1,2 +1,8 @@
 ---
 # vars file for ovirt-sdk
+Fedora:
+  packages: [ 'docker', 'etcd', 'python-requests', 'python2-docker', 'python3-docker', 'python-click', 'bind-utils', 'mlocate', 'git', 'wget', 'patch', 'vim', 'python3-pip', 'libcurl-devel', 'gcc', 'make', 'python3-devel', 'redhat-rpm-config', 'openssl-devel', 'python3-libxml2', 'libxml2-devel', 'libxml2-devel']
+  pip: [ 'ovirt-engine-sdk-python', 'pushbullet.py' ]
+
+CentOS:
+  packages: [ 'docker', 'etcd', 'python-requests', 'docker-python', 'python-click', 'bind-utils', 'mlocate', 'git', 'wget', 'patch', 'vim', 'python-ovirt-engine-sdk4', 'libcurl-devel', 'make', 'gcc', 'python3-devel', 'redhat-rpm-config', 'openssl-devel' ]

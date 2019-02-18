@@ -1,2 +1,23 @@
 ---
 # handlers file for ovirt-sdk
+#
+- name: 'Clean RedHat cache packages'
+  command: 'yum clean all'
+  args:
+    warn: false
+  changed_when: false
+  when: "ansible_distribution == 'RedHat'"
+
+- name: 'Clean CentOS cache packages'
+  command: 'yum clean all'
+  args:
+    warn: false
+  changed_when: false
+  when: "ansible_distribution == 'CentOS'"
+
+- name: 'Clean Fedora cache packages'
+  command: 'yum clean all'
+  args:
+    warn: false
+  changed_when: false
+  when: "ansible_distribution == 'Fedora'"
